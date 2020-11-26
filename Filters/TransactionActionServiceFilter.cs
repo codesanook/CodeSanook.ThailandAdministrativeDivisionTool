@@ -20,6 +20,7 @@ namespace Codesanook.ThailandAdministrativeDivisionTool.Filters
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             using var transaction = await dbContext.Database.BeginTransactionAsync();
+
             try
             {
                 var resultContext = await next();
@@ -33,24 +34,9 @@ namespace Codesanook.ThailandAdministrativeDivisionTool.Filters
                     await transaction.RollbackAsync();
                 }
             }
-            catch (Exception commitException)
+            catch (Exception ex)
             {
                 logger.LogError(ex, $"Exception in {nameof(TransactionActionServiceFilter)}");
-
-// Attempt to roll back the transaction.
-            try
-            {
-                transaction.Rollback();
-            }
-            catch (Exception ex2)
-            {
-                // This catch block will handle any errors that may have occurred
-                // on the server that would cause the rollback to fail, such as
-                // a closed connection.
-                Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
-                Console.WriteLine("  Message: {0}", ex2.Message);
-            }
-
                 await transaction.RollbackAsync();
             }
         }
