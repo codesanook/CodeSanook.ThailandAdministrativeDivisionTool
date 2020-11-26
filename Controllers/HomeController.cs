@@ -16,16 +16,16 @@ namespace Codesanook.ThailandAdministrativeDivisionTool.Controllers
         {
             var province1 = new Province()
             {
-                 Code = "BKK",
-                 NameInThai = "กรุงเทพมหานคร",
-                 NameInEnglish = "Bangkok"
+                Code = "BKK",
+                NameInThai = "กรุงเทพมหานคร",
+                NameInEnglish = "Bangkok"
             };
 
             var province2 = new Province()
             {
-                 Code = "KBV",
-                 NameInThai = "กระบี่",
-                 // NameInEnglish = "Krabi" //missing field value
+                Code = "KBV",
+                NameInThai = "กระบี่",
+                NameInEnglish = "Krabi"
             };
 
             dbContext.Set<Province>().Add(province1);

@@ -1,10 +1,10 @@
 using System;
-using Codesanook.ThailandAdministrativeDivisionTool.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.Data.Migration;
+using OrchardCore.EF.Filters;
 using OrchardCore.Modules;
 
 namespace Codesanook.ThailandAdministrativeDivisionTool
