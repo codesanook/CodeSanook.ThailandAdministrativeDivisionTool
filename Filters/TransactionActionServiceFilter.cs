@@ -20,25 +20,41 @@ namespace Codesanook.ThailandAdministrativeDivisionTool.Filters
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             using var transaction = await dbContext.Database.BeginTransactionAsync();
-
             try
             {
-                var resultContext = await next();
-                var noUnhandledException = resultContext.Exception == null || resultContext.ExceptionHandled;
-                if (noUnhandledException && context.ModelState.IsValid)
+                var actionExecutedContext = await next();
+                if (!IsResultValid(context, actionExecutedContext))
                 {
-                    await transaction.CommitAsync();
+                    throw new InvalidOperationException("Invalid action result should be rollback");
                 }
-                else
-                {
-                    await transaction.RollbackAsync();
-                }
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Exception in {nameof(TransactionActionServiceFilter)}");
-                await transaction.RollbackAsync();
+                if (!(ex is InvalidOperationException))
+                {
+                    logger.LogError(ex, $"Tranaction commit exception in {nameof(TransactionActionServiceFilter)}");
+                }
+
+                // Attempt to roll back the transaction.
+                try
+                {
+                    await transaction.RollbackAsync();
+                }
+                catch (Exception rollbackException)
+                {
+                    // This catch block will handle any errors that may have occurred
+                    // on the server that would cause the rollback to fail, such as
+                    // a closed connection.
+                    logger.LogError(rollbackException, $"rollback exception in {nameof(TransactionActionServiceFilter)}");
+                }
             }
+        }
+
+        private static bool IsResultValid(ActionExecutingContext context, ActionExecutedContext actionExecutedContext)
+        {
+            var noUnhandledException = actionExecutedContext.Exception == null || actionExecutedContext.ExceptionHandled;
+            return noUnhandledException && context.ModelState.IsValid;
         }
     }
 }
