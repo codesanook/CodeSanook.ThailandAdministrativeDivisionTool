@@ -1,0 +1,2 @@
+# Codesanook.ThailandAdministrativeDivisionTool
+OrchardCore ThailandAdministrativeDivisionTool export module
