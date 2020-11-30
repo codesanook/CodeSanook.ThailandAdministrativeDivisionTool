@@ -7,17 +7,15 @@ namespace Codesanook.ThailandAdministrativeDivisionTool
     {
         public int Create()
         {
-            // To get migration data
-            // SELECT Content
-            // FROM [Document]
-            // WHERE [Type] = 'OrchardCore.Data.Migration.Records.DataMigrationRecord, OrchardCore.Data'
+            // To get migration data, use the following SQL query
+            // SELECT Content FROM [Document] WHERE [Type] = 'OrchardCore.Data.Migration.Records.DataMigrationRecord, OrchardCore.Data'
             SchemaBuilder.CreateTable(nameof(Province), table => table
                 .Column<int>(nameof(Province.Id), col => col.PrimaryKey().Identity())
+                .Column<int>(nameof(Province.UserId), col => col.NotNull().WithLength(255))
                 .Column<string>(nameof(Province.Code), col => col.NotNull().WithLength(255))
                 .Column<string>(nameof(Province.NameInThai), col => col.NotNull().WithLength(255))
                 .Column<string>(nameof(Province.NameInEnglish), col => col.NotNull().WithLength(255))
             );
-
             return 1;
         }
     }
