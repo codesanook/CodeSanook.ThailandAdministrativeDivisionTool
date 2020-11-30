@@ -24,7 +24,7 @@ namespace Codesanook.ThailandAdministrativeDivisionTool
             services.Configure<MvcOptions>((options) =>
             {
                 // https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-5.0#dependency-injection
-                options.Filters.Add(typeof(TransactionActionServiceFilter));  // Add global action filter by type
+                // options.Filters.Add(typeof(TransactionActionServiceFilter));  // Add global action filter by type
             });
         }
 

@@ -3,6 +3,7 @@ using Codesanook.ThailandAdministrativeDivisionTool.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrchardCore.EF;
+using OrchardCore.EF.Filters;
 
 namespace Codesanook.ThailandAdministrativeDivisionTool.Controllers
 {
@@ -12,6 +13,7 @@ namespace Codesanook.ThailandAdministrativeDivisionTool.Controllers
 
         public HomeController(OrchardDbContext dbContext) => this.dbContext = dbContext;
 
+        [ServiceFilter(typeof(TransactionActionServiceFilter))]
         public async Task<ActionResult> Index()
         {
             var province1 = new Province()
